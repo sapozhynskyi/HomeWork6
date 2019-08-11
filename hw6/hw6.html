@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <link href="./css.css" rel="stylesheet">
+    <title>React - JavaScript</title>
+</head>
+
+<body>
+    <header>
+
+        <nav>
+            <a href="./hw6.html"><img src="./8ded82ca.jpg" width="30" height="30">React</a>
+            <a href="./hw6.html">Docs</a>
+            <a href="./hw6.html">Tutorial</a>
+            <a href="./hw6.html">Blog</a>
+            <a href="./hw6.html">Community</a>
+        </nav>
+        <form>
+            <label for="search">Search</label>
+            <input id="search" name="search" type="text">
+        </form>
+    </header>
+    <a name="top"></a>
+    <div>
+        <h1>React</h1>
+        <p>A JavaScript library for building user interfaces</p>
+        <form>
+            <input id="button1" name="Get Started" type="button" value="Get Started">
+            <input id="button2" name="Take the Tutorial" type="button" value="Take the Tutorial">
+        </form>
+    </div>
+    <div class="column3">
+        <br>
+        <em>
+            <h3>Declarative</h3>
+        </em>
+        <p>React makes it painless to create interactive UIs. Design simple views for each state in your application,
+            and React will efficiently update and render just the right components when your data changes.</p>
+        <p>
+            Declarative views make your code more predictable and easier to debug.
+        </p>
+        <br>
+        <em>
+            <h3>Component-Based</h3>
+        </em>
+        <p>
+            Build encapsulated components that manage their own state, then compose them to make complex UIs.
+        </p>
+        <p>
+            Since component logic is written in JavaScript instead of templates, you can easily pass rich data through
+            your app and keep state out of the DOM.
+        </p>
+        <br>
+        <em>
+            <h3>Learn Once</h3>
+        </em>
+        <p>
+            We don’t make assumptions about the rest of your technology stack, so you can develop new features in React
+            without rewriting existing code.
+        </p>
+        <p>
+            React can also render on the server using Node and power mobile apps using <a href="./hw6.html">React
+                Native</a>.
+        </p>
+    </div>
+    <section class="column2">
+        <h2>A Simple Component</h2>
+        <p>
+            React components implement a render() method that takes input data and returns what to display. This example
+            uses an XML-like syntax called JSX. Input data that is passed into the component can be accessed by
+            <code>render()</code> via <code>this.props</code>.
+        </p>
+        <strong>JSX is optional and not required to use React.</strong>
+        <p>
+            Try the Babel REPL to see the raw JavaScript code produced by the JSX compilation step.
+        </p>
+        <form>
+            <fieldset>
+                <legend>LIVE JSX EDITOR</legend>
+                <textarea rows="20" cols="35">
+class HelloMessage extends React.Component {
+    render() {
+    return (
+    &lt;div&gt;
+    Hello {this.props.name}
+    &lt;/div&gt;
+    );
+    }
+}
+    ReactDOM.render(
+    &lt;HelloMessage name="Taylor" /&gt;,
+    document.getElementById('hello-example')
+    );
+            </textarea>
+            </fieldset>
+        </form>
+    </section>
+
+    <section class="column2">
+        <h2>A Stateful Component</h2>
+        <p>
+            In addition to taking input data (accessed via <code>this.props</code>), a component can maintain internal
+            state data (accessed via <code>this.state</code>). When a component’s state data changes, the rendered
+            markup will be updated by re-invoking <code>render()</code>.0
+        </p>
+        <form>
+            <fieldset>
+                <legend>LIVE JSX EDITOR</legend>
+                <textarea rows="20" cols="50">
+                        class Timer extends React.Component {
+                            constructor(props) {
+                              super(props);
+                              this.state = { seconds: 0 };
+                            }
+                          
+                            tick() {
+                              this.setState(state => ({
+                                seconds: state.seconds + 1
+                              }));
+                            }
+                          
+                            componentDidMount() {
+                              this.interval = setInterval(() => this.tick(), 1000);
+                            }
+                          
+                            componentWillUnmount() {
+                              clearInterval(this.interval);
+                            }
+                          
+                            render() {
+                              return (
+                                &lt;div&gt;
+                                  Seconds: {this.state.seconds}
+                                  &lt;/div&gt;
+                              );
+                            }
+                          }
+                          
+                          ReactDOM.render(
+                            &lt;Timer /&gt;,
+                            document.getElementById('timer-example')
+                          );
+                </textarea>
+            </fieldset>
+        </form>
+    </section>
+
+    <section class="column2">
+        <h2>A Component Using External Plugins</h2>
+        <p>
+            React allows you to interface with other libraries and frameworks. This example uses
+            <strong>remarkable</strong>, an external Markdown library, to convert the <code>&lt;textarea&gt;</code>’s
+            value in real time.
+        </p>
+        <br>
+        <form>
+            <fieldset>
+                <legend>LIVE JSX EDITOR</legend>
+                <textarea rows="20" cols="50">
+                        class MarkdownEditor extends React.Component {
+                            constructor(props) {
+                              super(props);
+                              this.handleChange = this.handleChange.bind(this);
+                              this.state = { value: 'Hello, **world**!' };
+                            }
+                          
+                            handleChange(e) {
+                              this.setState({ value: e.target.value });
+                            }
+                          
+                            getRawMarkup() {
+                              const md = new Remarkable();
+                              return { __html: md.render(this.state.value) };
+                            }
+                          
+                            render() {
+                              return (
+                                &lt;div className="MarkdownEditor"&gt;
+                                &lt;h3&gt;Input&lt;/h3&gt;
+                                &lt;label htmlFor="markdown-content"&gt;
+                                    Enter some markdown
+                                    &lt;/label&gt;
+                                    &lt;/textarea&gt;
+                                    id="markdown-content"
+                                    onChange={this.handleChange}
+                                    defaultValue={this.state.value}
+                                  
+                                  &lt;/h3&gt;Output&lt;/h3&gt;
+                                  &lt;/div&gt;
+                                    className="content"
+                                    dangerouslySetInnerHTML={this.getRawMarkup()}
+                                  
+                                  &lt;/div&gt;
+                              );
+                            }
+                          }
+                          
+                          ReactDOM.render(
+                            &lt;/MarkdownEditor&gt;,
+                            document.getElementById('markdown-example')
+                          );
+                </textarea>
+                <label id="input">
+                    <strong>Input</strong>
+                </label>
+                <input id="input" name="comusing" type="text" value="Hello, **world**!">
+
+                <label id="output">
+                    <strong>Output</strong>
+                </label>
+                <input id="output" name="comusing" type="text" value="Hello, world!">
+
+            </fieldset>
+        </form>
+    </section>
+
+    <section class="column2">
+        <h2>An Application</h2>
+        <p>
+            Using <code>props</code> and <code>state</code>, we can put together a small Todo application. This example
+            uses <code>state</code> to track the current list of items as well as the text that the user has entered.
+            Although event handlers appear to be rendered inline, they will be collected and implemented using event
+            delegation.
+        </p>
+        <br>
+        <form>
+            <fieldset>
+                <legend>LIVE JSX EDITOR</legend>
+                <textarea rows="20" cols="50">
+                            class TodoApp extends React.Component {
+                                constructor(props) {
+                                  super(props);
+                                  this.state = { items: [], text: '' };
+                                  this.handleChange = this.handleChange.bind(this);
+                                  this.handleSubmit = this.handleSubmit.bind(this);
+                                }
+                              
+                                render() {
+                                  return (
+                                    &lt;div&gt;
+                                    &lt;h3>TODO&lt;/h3&gt;
+                                    &lt;TodoList items={this.state.items} /&gt;
+                                    &lt;form onSubmit={this.handleSubmit}&gt;
+                                    &lt;label htmlFor="new-todo&gt;
+                                          What needs to be done?
+                                          &lt;/label&gt;
+                                          &lt;input
+                                          id="new-todo"
+                                          onChange={this.handleChange}
+                                          value={this.state.text}
+                                        /&gt;
+                                        &lt;button&gt;
+                                          Add #{this.state.items.length + 1}
+                                          &lt;/button&gt;
+                                          &lt;/form&gt;
+                                          &lt;/div&gt;
+                                  );
+                                }
+                              
+                                handleChange(e) {
+                                  this.setState({ text: e.target.value });
+                                }
+                              
+                                handleSubmit(e) {
+                                  e.preventDefault();
+                                  if (!this.state.text.length) {
+                                    return;
+                                  }
+                                  const newItem = {
+                                    text: this.state.text,
+                                    id: Date.now()
+                                  };
+                                  this.setState(state => ({
+                                    items: state.items.concat(newItem),
+                                    text: ''
+                                  }));
+                                }
+                              }
+                              
+                              class TodoList extends React.Component {
+                                render() {
+                                  return (
+                                    &lt;ul&gt;
+                                      {this.props.items.map(item => (
+                                        &lt;li key={item.id}>{item.text}&lt;/li&gt;
+                                      ))}
+                                      &lt;/ul&gt;
+                                  );
+                                }
+                              }
+                              
+                              ReactDOM.render(
+                                &lt;TodoApp /&gt;,
+                                document.getElementById('todos-example')
+                              );
+                    </textarea>
+                <label id="todo">
+                    <strong>What needs to be done</strong>
+                </label>
+                <input id="todo" name="todo" type="text">
+                <input id="todo" name="todo" type="button" value="Add #1">
+            </fieldset>
+        </form>
+    </section>
+    <br><br>
+    <footer>
+        <form>
+            <input id="button1" name="Get Started" type="button" value="Get Started">
+            <input id="button2" name="Take the Tutorial" type="button" value="Take the Tutorial">
+        </form>
+
+        <div class="column2">
+            <h2>DOCS</h2>
+            <a href="#top">Installation</a>
+            <a href="#top">Main Concepts</a>
+            <a href="#top">Advanced Guides</a>
+            <a href="#top">API Reference</a>
+            <a href="#top">Hooks (New)</a>
+            <a href="#top">Testing</a>
+            <a href="#top">Contributing</a>
+            <a href="#top">FAQ</a>
+            <br>
+            <h2>CHANNELS</h2>
+            <a href="#top" target="_blank">GitHub</a>
+            <a href="#top" target="_blank">Stack Overflow</a>
+            <a href="#top" target="_blank">Discussion Forums</a>
+            <a href="#top" target="_blank">Reactiflux Chat</a>
+            <a href="#top" target="_blank">DEV Community</a>
+            <a href="#top" target="_blank">Facebook</a>
+            <a href="#top" target="_blank">Twitter</a>
+            <h2>COMMUNITY</h2>
+            <a href="#top">Community Resources</a>
+            <a href="#top">Tools</a>
+            <h2>MORE</h2>
+            <a href="#top">Tutorial</a>
+            <a href="#top">Blog</a>
+            <a href="#top">Acknowledgements</a>
+            <a href="#top" target="_blank">React Native</a>
+        </div>
+    </footer>
+</body>
+
+</html>
